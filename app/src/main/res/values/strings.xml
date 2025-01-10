@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">HopRace</string>
-    <string name="eggs_0">Eggs: 0</string>
-    <string name="upgrade_10_eggs">Upgrade (10 Eggs)</string>
-    <string name="new_rabbit">New Rabbit (100 Eggs)</string>
+    <string name="egg_count">Eggs: %1$d</string>
+    <string name="upgrade">Upgrade (%1$d Eggs)</string>
+    <string name="new_rabbit">New Rabbit (%1$d Eggs)</string>
     <string name="rabbit_image">Rabbit Image</string>
 </resources>
