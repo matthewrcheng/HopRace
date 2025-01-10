@@ -3,9 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:background="#82ECFB"
+    android:gravity="center"
+    android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/coinCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/app_name"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
 
     <ImageView
         android:id="@+id/rabbitImage"
@@ -15,28 +24,32 @@
         android:clickable="true"
         android:contentDescription="@string/rabbit_image"
         android:focusable="true"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        app:srcCompat="@android:drawable/alert_dark_frame" />
 
     <TextView
         android:id="@+id/eggCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/eggs_0"
-        android:textSize="24sp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/egg_count"
         android:textColor="@android:color/black"
-        android:layout_marginBottom="16dp" />
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/upgradeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/upgrade_10_eggs"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:background="#FFC107"
+        android:paddingHorizontal="15dp"
+        android:text="@string/upgrade" />
 
     <Button
         android:id="@+id/newRabbitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#FFC107"
+        android:paddingHorizontal="15dp"
         android:text="@string/new_rabbit" />
 
 </LinearLayout>
