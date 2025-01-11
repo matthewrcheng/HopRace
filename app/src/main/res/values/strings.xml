@@ -4,4 +4,5 @@
     <string name="upgrade">Upgrade (%1$d Eggs)</string>
     <string name="new_rabbit">New Rabbit (%1$d Eggs)</string>
     <string name="rabbit_image">Rabbit Image</string>
+    <string name="farm">Buy Egg Farm (%1$d Eggs)</string>
 </resources>

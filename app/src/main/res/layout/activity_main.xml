@@ -21,6 +21,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginBottom="16dp"
+        android:background="#FFFFFF"
         android:clickable="true"
         android:contentDescription="@string/rabbit_image"
         android:focusable="true"
@@ -48,8 +49,17 @@
         android:id="@+id/newRabbitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:background="#FFC107"
         android:paddingHorizontal="15dp"
         android:text="@string/new_rabbit" />
+
+    <Button
+        android:id="@+id/farmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="#FFC107"
+        android:text="@string/farm" />
 
 </LinearLayout>
