@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,13 +18,13 @@ class MainActivity : ComponentActivity() {
     private var eggsPerSecond = 0
     private var upgradeCount = 0
     private val baseUpgradeCost = 10
-    private var upgradeCost = calcCost(baseUpgradeCost, upgradeCount)
+    private var upgradeCost = calcUpgradeCost()
     private var newRabbitCount = 0
     private val baseNewRabbitCost = 100
-    private var newRabbitCost = calcCost(baseNewRabbitCost, newRabbitCount)
+    private var newRabbitCost = calcNewRabbitCost()
     private var farmCount = 0
     private val baseFarmCost = 50
-    private var farmCost = calcCost(baseFarmCost, farmCount)
+    private var farmCost = calcFarmCost()
     private lateinit var preferences: SharedPreferences
     private lateinit var handler : Handler
     private lateinit var rabbitImage : ImageView
@@ -44,11 +45,11 @@ class MainActivity : ComponentActivity() {
         eggsPerClick = preferences.getInt("eggsPerClick", 1)
         eggsPerSecond = preferences.getInt("eggsPerSecond", 0)
         upgradeCount = preferences.getInt("upgradeCount", 0)
-        upgradeCost = calcCost(baseUpgradeCost, upgradeCount)
+        upgradeCost = calcUpgradeCost()
         newRabbitCount = preferences.getInt("newRabbitCount", 0)
-        newRabbitCost = calcCost(baseNewRabbitCost, newRabbitCount)
+        newRabbitCost = calcNewRabbitCost()
         farmCount = preferences.getInt("farmCount", 0)
-        farmCost = calcCost(baseFarmCost, farmCount)
+        farmCost = calcFarmCost()
         val lastExitTime = preferences.getLong("lastExitTime", -1L)
         if (lastExitTime != -1L) {
             val elapsedSeconds = ((System.currentTimeMillis() - lastExitTime) / 1000).toInt()
@@ -70,16 +71,16 @@ class MainActivity : ComponentActivity() {
         handler = Handler(Looper.getMainLooper())
 
         rabbitImage.setOnClickListener {
-            eggCount += eggsPerClick
+            eggCount += eggsPerClick*(1+newRabbitCount)
             updateEggCounter()
         }
 
         upgradeButton.setOnClickListener {
             if (eggCount >= upgradeCost) {
                 eggCount -= upgradeCost
-                eggsPerClick += 1
-                upgradeCount += 1
-                upgradeCost = calcCost(baseUpgradeCost, upgradeCount)
+                upgradeCount++
+                eggsPerClick += upgradeCount
+                upgradeCost = calcUpgradeCost()
                 updateEggCounter()
                 upgradeButton.text = getString(R.string.upgrade, upgradeCost)
             }
@@ -88,9 +89,8 @@ class MainActivity : ComponentActivity() {
         newRabbitButton.setOnClickListener {
             if (eggCount >= newRabbitCost) {
                 eggCount -= newRabbitCost
-                eggsPerClick += 10
-                newRabbitCount += 1
-                newRabbitCost = calcCost(baseNewRabbitCost, newRabbitCount)
+                newRabbitCount++
+                newRabbitCost = calcNewRabbitCost()
                 updateEggCounter()
                 newRabbitButton.text = getString(R.string.new_rabbit, newRabbitCost)
             }
@@ -99,9 +99,10 @@ class MainActivity : ComponentActivity() {
         farmButton.setOnClickListener {
             if (eggCount >= farmCost) {
                 eggCount -= farmCost
-                eggsPerSecond += 1
-                farmCount += 1
-                farmCost = calcCost(baseFarmCost, farmCount)
+                farmCount++
+                eggsPerSecond += farmCount
+                Log.v("HopRace", eggsPerSecond.toString())
+                farmCost = calcFarmCost()
                 updateEggCounter()
                 farmButton.text = getString(R.string.farm, farmCost)
             }
@@ -156,11 +157,11 @@ class MainActivity : ComponentActivity() {
         eggsPerClick = preferences.getInt("eggsPerClick", 1)
         eggsPerSecond = preferences.getInt("eggsPerSecond", 0)
         upgradeCount = preferences.getInt("upgradeCount", 0)
-        upgradeCost = calcCost(baseUpgradeCost, upgradeCount)
+        upgradeCost = calcUpgradeCost()
         newRabbitCount = preferences.getInt("newRabbitCount", 0)
-        newRabbitCost = calcCost(baseNewRabbitCost, newRabbitCount)
+        newRabbitCost = calcNewRabbitCost()
         farmCount = preferences.getInt("farmCount", 0)
-        farmCost = calcCost(baseFarmCost, farmCount)
+        farmCost = calcFarmCost()
         val lastExitTime = preferences.getLong("lastExitTime", -1L)
         if (lastExitTime != -1L) {
             val elapsedSeconds = ((System.currentTimeMillis() - lastExitTime) / 1000).toInt()
@@ -169,9 +170,36 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun calcCost(base: Int, count: Int): Int {
-        val rate = 1.2
+    private fun reset() {
+        eggCount = 0
+        eggsPerClick = 1
+        eggsPerSecond = 0
+        upgradeCount = 0
+        upgradeCost = calcUpgradeCost()
+        newRabbitCount = 0
+        newRabbitCost = calcNewRabbitCost()
+        farmCount = 0
+        farmCost = calcFarmCost()
+
+    }
+
+    private fun calcCost(base: Int, count: Int, rate: Double): Int {
         return (base * rate.pow(count)).toInt()
+    }
+
+    private fun calcUpgradeCost(): Int {
+        val rate = 1.2
+        return calcCost(baseUpgradeCost, upgradeCount, rate)
+    }
+
+    private fun calcNewRabbitCost(): Int {
+        val rate = 1.2
+        return calcCost(baseNewRabbitCost, newRabbitCount, rate)
+    }
+
+    private fun calcFarmCost(): Int {
+        val rate = 1.2
+        return calcCost(baseFarmCost, farmCount, rate)
     }
 
     private fun updateEggCounter() {

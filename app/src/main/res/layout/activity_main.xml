@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:background="#FFC107"
+        android:paddingHorizontal="15dp"
         android:text="@string/farm" />
 
 </LinearLayout>
